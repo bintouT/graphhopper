@@ -87,14 +87,14 @@ class IntsRef7CasesTest {
         assertNotEquals(ref, "pas un IntsRef", "equals doit renvoyer false pour une autre classe");
     }
 
-    /** Cas 7 — isValid: false quand offset/longueur non valides 
+    /** Cas 7 — isValid: false quand offset/longueur non valides */
     @Test
     @DisplayName("isValid – false quand offset/longueur non valides")
     void testIsValidForInvalidRefs() {
         IntsRef validRef = new IntsRef(new int[] { 1, 2, 3 }, 0, 3);
         assertTrue(validRef.isValid(), "Un IntsRef normal devrait être valide");
 
-        IntsRef invalidRef = new IntsRef(new int[] { 1, 2, 3 }, 2, 5);
+        IntsRef invalidRef = new IntsRef(new int[] { 1, 2, 3 }, 2, 3);
         assertFalse(invalidRef.isValid(), "isValid doit renvoyer false pour une combinaison invalide");
-    }*/
+    }
 }
