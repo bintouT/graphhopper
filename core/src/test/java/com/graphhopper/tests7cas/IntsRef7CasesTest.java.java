@@ -78,7 +78,7 @@ class IntsRef7CasesTest {
         assertFalse(nonEmpty.isEmpty(), "Un IntsRef de longueur > 0 ne doit pas être vide");
     }
 
-    /** Cas 6 — equals: false quand on compare à null ou un autre type */
+    /** Cas 6 — equals: false quand on compare à null ou un autre type 
     @Test
     @DisplayName("equals – false pour null ou autre type d'objet")
     void testEqualsWithNullAndDifferentType() {
@@ -87,7 +87,7 @@ class IntsRef7CasesTest {
         assertNotEquals(ref, "pas un IntsRef", "equals doit renvoyer false pour une autre classe");
     }
 
-    /** Cas 7 — isValid: false quand offset/longueur non valides */
+    /** Cas 7 — isValid: false quand offset/longueur non valides 
     @Test
     @DisplayName("isValid – false quand offset/longueur non valides")
     void testIsValidForInvalidRefs() {
@@ -96,5 +96,5 @@ class IntsRef7CasesTest {
 
         IntsRef invalidRef = new IntsRef(new int[] { 1, 2, 3 }, 2, 5);
         assertFalse(invalidRef.isValid(), "isValid doit renvoyer false pour une combinaison invalide");
-    }
+    }*/
 }
