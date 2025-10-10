@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+import com.github.javafaker.Faker;
 
 /**
  * @author Peter Karich
@@ -258,4 +259,7 @@ public class VLongStorageTest {
         assertEquals(268435455L, store.readVLong());
         assertEquals(34359738367L, store.readVLong());
     }
+    /** Test java-faker. Le but de ce test est d'utiliser java-Faker nous voulons
+    * tester avec des données aléatoires qui vont être générées par java-faker. 
+    * On vérifie si VLongStorage peut gérer un grand volume de valeurs aléatoires de différentes tailles. */
 }
