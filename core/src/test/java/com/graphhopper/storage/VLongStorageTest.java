@@ -311,9 +311,7 @@ public class VLongStorageTest {
         // Choisit 3 positions aléatoires et vérifie qu'on peut y accéder
         if (nbValeurs >= 10) {
             int pos1 = faker.number().numberBetween(0, nbValeurs / 3);
-            int pos2 = faker.number().numberBetween(nbValeurs / 3, 2 * nbValeurs / 3);
-            int pos3 = faker.number().numberBetween(2 * nbValeurs / 3, nbValeurs - 1);
-            
+                        
             // Calcule la position en octets pour pos1
             store.seek(0);
             for (int i = 0; i < pos1; i++) {
