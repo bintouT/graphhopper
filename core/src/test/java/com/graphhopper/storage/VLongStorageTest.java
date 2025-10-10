@@ -259,7 +259,79 @@ public class VLongStorageTest {
         assertEquals(268435455L, store.readVLong());
         assertEquals(34359738367L, store.readVLong());
     }
-    /** Test java-faker. Le but de ce test est d'utiliser java-Faker nous voulons
-    * tester avec des données aléatoires qui vont être générées par java-faker. 
-    * On vérifie si VLongStorage peut gérer un grand volume de valeurs aléatoires de différentes tailles. */
+
+    
+    /** Test avec java-faker. Le but de ce test est d'utiliser java-Faker nous voulons
+     * tester avec des données aléatoires qui vont être générées par java-faker.
+     * On vérifie si VLongStorage peut gérer un grand volume de valeurs aléatoires de différentes tailles. */
+    @Test
+    public void testAvecJavaFaker() {
+
+        Faker faker = new Faker();
+        
+        // Génère un nombre aléatoire de entre 20 et 50
+        int nbValeurs = faker.number().numberBetween(20, 50);
+        VLongStorage store = new VLongStorage(5); // Petite capacité pour tester expansion
+        
+        long[] valeursAleatoires = new long[nbValeurs];
+        
+        // Écriture de valeurs aléatoires de différentes magnitudes
+        for (int i = 0; i < nbValeurs; i++) {
+            long valeur;
+            // Alterne entre pour couvrir les branches de readVLong
+            switch (i % 3) {
+                case 0:
+                    // Petites valeurs 1 octet
+                    valeur = faker.number().numberBetween(0L, 127L);
+                    break;
+                case 1:
+                    // Moyennes valeurs 2 octets
+                    valeur = faker.number().numberBetween(128L, 16383L);
+                    break;
+                default:
+                    // Grandes valeurs 3-4 octets
+                    valeur = faker.number().numberBetween(16384L, 1000000L);
+            }
+            valeursAleatoires[i] = valeur;
+            store.writeVLong(valeur);
+        }
+        
+        // Vérifie l'expansion automatique
+        assertTrue(store.getLength() > 5,
+            "Le tableau devrait s'être agrandi avec les valeurs écrites: " + nbValeurs + ")");
+        
+        // Lecture complète
+        store.seek(0);
+        for (int i = 0; i < nbValeurs; i++) {
+            long valeurLue = store.readVLong();
+            assertEquals(valeursAleatoires[i], valeurLue,
+                "Erreur à l'index " + i + ": attendu " + valeursAleatoires[i] + " mais lu " + valeurLue);
+        }
+        
+        // Choisit 3 positions aléatoires et vérifie qu'on peut y accéder
+        if (nbValeurs >= 10) {
+            int pos1 = faker.number().numberBetween(0, nbValeurs / 3);
+            int pos2 = faker.number().numberBetween(nbValeurs / 3, 2 * nbValeurs / 3);
+            int pos3 = faker.number().numberBetween(2 * nbValeurs / 3, nbValeurs - 1);
+            
+            // Calcule la position en octets pour pos1
+            store.seek(0);
+            for (int i = 0; i < pos1; i++) {
+                store.readVLong();
+            }
+            long positionOctets1 = store.getPosition();
+            
+            // Vérifie la lecture à position aléatoire 1
+            store.seek(positionOctets1);
+            assertEquals(valeursAleatoires[pos1], store.readVLong(),
+                "Navigation échouée à la position " + pos1);
+        }
+        
+        // Vérifie getBytes et getLength
+        byte[] bytes = store.getBytes();
+        assertNotNull(bytes, "getBytes() ne devrait pas retourner null");
+        assertTrue(bytes.length >= nbValeurs,
+            "Le tableau d'octets devrait avoir une taille suffisante pour " + nbValeurs + " valeurs");
+        
+    }
 }
