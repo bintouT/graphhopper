@@ -178,7 +178,22 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-
+        
+     <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <configuration>
+                <targetClasses>
+                    <param>com.graphhopper.routing.*</param>
+                </targetClasses>
+                <targetTests>
+                   <param>com.graphhopper.routing.*</param>
+                </targetTests>
+                <threads>2</threads>
+                <timeoutConstant>10000</timeoutConstant>
+        </configuration>
+    </plugin>
+        
         <plugins>
             <plugin>
                 <groupId>pl.project13.maven</groupId>
