@@ -1,9 +1,11 @@
 package com.graphhopper.storage;
 
 import com.graphhopper.routing.ch.PrepareEncoder;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import com.graphhopper.routing.ch.CHConfig;
+
+import com.graphhopper.storage.CHConfig;
 import com.graphhopper.storage.BaseGraph;
 import com.graphhopper.storage.NodeAccess;
 
@@ -12,9 +14,12 @@ import java.util.function.Consumer;
 import static org.mockito.Mockito.*;
 
 
+import org.mockito.junit.MockitoJUnitRunner;
+
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CHStorageTest {
