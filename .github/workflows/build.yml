@@ -73,6 +73,7 @@ jobs:
           set -e
           mvn -B -pl core test
           mvn -B -pl core \
+          -Dverbose=true\
           -DtargetClasses=com.graphhopper.storage.CHStorage \
           -DtargetTests=com.graphhopper.storage.CHStorageTest \
           org.pitest:pitest-maven:mutationCoverage
