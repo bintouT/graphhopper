@@ -72,8 +72,9 @@ jobs:
           run: |
             set -e
             mvn -B -pl core test-compile
-            mvn -B -pl core -am clean install \
+            mvn -B -pl core \
               -Dverbose=true \
+              -DwithHistory \
               -DtargetClasses=com.graphhopper.storage.CHStorage.* \
               -DtargetTests=com.graphhopper.storage.CHStorageTest.* \
               -DargLine= \
@@ -107,7 +108,7 @@ jobs:
           with:
             name: mutation-score
             path: score.txt
-  sanity-check:
+  rickroll-check:
     runs-on: ubuntu-latest
     needs: mutation-check
     if: failure()
