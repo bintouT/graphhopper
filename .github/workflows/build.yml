@@ -69,11 +69,13 @@ jobs:
         continue-on-error: true
 
       - name: Run mutation tests
-        run: mvn -B -pl core test
+        run: |
+          set -e
+          mvn -B -pl core test
           mvn -B -pl core \
-            -DtargetClasses=com.graphhopper.storage.CHStorage \
-            -DtargetTests=com.graphhopper.storage.CHStorageTest\
-            org.pitest:pitest-maven:mutationCoverage
+          -DtargetClasses=com.graphhopper.storage.CHStorage \
+          -DtargetTests=com.graphhopper.storage.CHStorageTest \
+          org.pitest:pitest-maven:mutationCoverage
 
       - name: Extract current mutation score
         id: mutation
@@ -109,8 +111,8 @@ jobs:
     needs: mutation-check
     if: failure()
     steps:
-      - name: Rickroll if build fails
+      - name: Definitely not a Rickroll if build fails
         run: |
-          echo "Build failed... 😈"
-          echo "Enjoy the music 🎵"
-          echo " [View diagnostic report] https://www.youtube.com/watch?v=dQw4w9WgXcQ?autoplay=1"
+          echo "Build failed... "
+          echo "Check this totally, absolutely, definitely not suspicious link to the video to debug "
+          echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ?autoplay=1"
