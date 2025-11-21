@@ -110,4 +110,7 @@ jobs:
     if: failure()
     steps:
       - name: Rickroll if build fails
-        uses: TejasvOnly/random-rickroll@v1.0
+        run: |
+          echo "Build failed... 😈"
+          echo "Enjoy the music 🎵"
+          echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ?autoplay=1"
