@@ -71,7 +71,7 @@ jobs:
         - name: Run mutation tests
           run: |
             set -e
-            mvn -B -pl core test
+            mvn -B -pl core test-compile
             mvn -B -pl core \
               -Dverbose=true \
               -DtargetClasses=com.graphhopper.storage.CHStorage.* \
