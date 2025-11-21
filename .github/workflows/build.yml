@@ -91,7 +91,7 @@ jobs:
         run: echo "${{ steps.mutation.outputs.score }}" > score.txt
 
       - name: Upload current mutation score
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mutation-score
           path: score.txt
