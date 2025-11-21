@@ -75,7 +75,7 @@ jobs:
             mvn -B -pl core \
               -Dverbose=true \
               -DtargetClasses=com.graphhopper.storage.CHStorage.* \
-              -DtargetTests=com.graphhopper.storage.CHStorageTest \
+              -DtargetTests=com.graphhopper.storage.CHStorageTest.* \
               -DargLine= \
               org.pitest:pitest-maven:mutationCoverage
 
