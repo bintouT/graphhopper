@@ -114,3 +114,4 @@ jobs:
           echo "Build failed... 😈"
           echo "Enjoy the music 🎵"
           echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ?autoplay=1"
+          echo "https://www.youtube.com/embed/Qw4w9WgXcQ?autoplay=1&mute=1"
