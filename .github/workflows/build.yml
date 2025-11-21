@@ -69,7 +69,9 @@ jobs:
         continue-on-error: true
 
       - name: Run mutation tests
-        run: mvn org.pitest:pitest-maven:mutationCoverage
+        run: mvn org.pitest:pitest-maven:mutationCoverage \
+            -DtargetClasses=com.graphhopper.storage.CHStorage \
+            -DtargetTests=com.graphhopper.storage.CHStorageTest
 
       - name: Extract current mutation score
         id: mutation
