@@ -72,7 +72,7 @@ jobs:
           run: |
             set -e
             mvn -B -pl core test-compile
-            mvn -B -pl core \
+            mvn -B -pl core -am clean install \
               -Dverbose=true \
               -DtargetClasses=com.graphhopper.storage.CHStorage.* \
               -DtargetTests=com.graphhopper.storage.CHStorageTest.* \
