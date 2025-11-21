@@ -37,10 +37,9 @@ jobs:
           restore-keys: |
             ${{ runner.os}}-node_modules-
       - name: Build ${{ matrix.java-version }}
-        run: mvn org.pitest:pitest-maven:mutationCoverage \
+        run: mvn -B clean test \
               -DtargetClasses= com.graphhopper.storage.CHStorage \
               -DtargetTests=com.graphhopper.storage.CHStorageTest
-
 
         
   mutation-check:
