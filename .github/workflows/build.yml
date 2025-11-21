@@ -1,5 +1,7 @@
 name: Build and Test
-on: push
+on: 
+  push:
+  pull_request:
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -42,54 +44,53 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-java@v4
         with:
-          java-version: 24
+          java-version: 25-ea
           distribution: temurin
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v3
+      - name: Cache Maven artifacts
+        uses: actions/cache@v4
         with:
-          name: build-artifact
-          path: target
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
       - name: Download previous mutation score
+        id: download
         uses: actions/download-artifact@v3
         with:
           name: mutation-score
-          path: previous-score || true
+          optional: true
 
       - name: Run mutation tests
         run: mvn org.pitest:pitest-maven:mutationCoverage
 
-      - name: Check mutation score
+      - name: Extract current mutation score
         id: mutation
         run: |
-          # Récupère le score actuel
-          SCORE=1
+          SCORE=$(grep -oP 'mutationCoverage="\K[0-9]+' target/pit-reports/*/mutations.xml | head -1)
           echo "Current mutation score: $SCORE"
+          echo "score=$SCORE" >> $GITHUB_OUTPUT
 
-          # Lit le score précédent si disponible
-          if [ -f previous-score/mutation-score.txt ]; then
-            PREVIOUS_SCORE=$(cat previous-score/mutation-score.txt)
+      - name: Compare with previous score
+        run: |
+          if [ -f mutation-score/score.txt ]; then
+            PREV_SCORE=$(cat mutation-score/score.txt)
+            echo "Previous mutation score: $PREV_SCORE"
+            if [ ${{ steps.mutation.outputs.score }} -lt $PREV_SCORE ]; then
+              echo "Mutation score decreased ($PREV_SCORE -> ${{ steps.mutation.outputs.score }}). Failing build."
+              exit 1
+            fi
           else
-            PREVIOUS_SCORE=0
-          fi
-          echo "Previous mutation score: $PREVIOUS_SCORE"
-
-          # Compare
-          if [ "$SCORE" -lt "$PREVIOUS_SCORE" ]; then
-            echo "Mutation score dropped! Failing the build."
-            exit 1
+            echo "No previous score found, skipping comparison."
           fi
 
-          # Met à jour le fichier pour upload
-          mkdir -p mutation-score
-          echo $SCORE > mutation-score/mutation-score.txt
+      - name: Save current score file
+        run: echo "${{ steps.mutation.outputs.score }}" > score.txt
 
-      - name: Upload new mutation score
+      - name: Upload current mutation score
         uses: actions/upload-artifact@v3
         with:
           name: mutation-score
-          path: mutation-score
+          path: score.txt
