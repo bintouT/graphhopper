@@ -103,3 +103,14 @@ jobs:
         with:
           name: mutation-score
           path: score.txt
+
+  sanity-check:
+    runs-on: ubuntu-latest
+    needs: mutation-check
+    steps:
+      - name: Rickroll if build fails
+        if: failure()
+        run: |
+          echo "Build failed... 😈"
+          echo "Enjoy the music 🎵"
+          echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
