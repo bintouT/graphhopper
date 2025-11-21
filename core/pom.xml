@@ -149,6 +149,10 @@
                         <targetTests>
                             <param>com.graphhopper.storage.CHStorageTest</param>
                         </targetTests>
+                            <outputFormats>
+                                <param>HTML</param>
+                                <param>XML</param>
+                            </outputFormats>
                     </configuration>
                     <dependencies>
                         <dependency>
