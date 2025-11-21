@@ -76,7 +76,7 @@ jobs:
               -Dverbose=true \
               -DtargetClasses=com.graphhopper.storage.CHStorage \
               -DtargetTests=com.graphhopper.storage.CHStorageTest \
-              -DargLine= \
+              -DargLine="-XX:+EnableDynamicAgentLoading" \
               org.pitest:pitest-maven:mutationCoverage
 
         - name: Extract current mutation score
