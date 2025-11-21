@@ -107,9 +107,9 @@ jobs:
   sanity-check:
     runs-on: ubuntu-latest
     needs: mutation-check
+    if: failure()
     steps:
       - name: Rickroll if build fails
-        if: failure()
         run: |
           echo "Build failed... 😈"
           echo "Enjoy the music 🎵"
